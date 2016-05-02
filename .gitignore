@@ -30,6 +30,7 @@ node_modules
 credentials.js
 #database
 data
+db.js
 # Optional npm cache directory
 .npm
 
