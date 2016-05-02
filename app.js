@@ -1,6 +1,4 @@
-
 // vhttp.createServer(onRequest).listen(3000);  //開啟server 並執行onRequest()
-
 // console.log("Server has started to listen at port: 3000.");
 var http = require('http');
 var url = require('url');
@@ -53,9 +51,61 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 //===================connected to the MongoDB============================
+
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+//
+// mongoose.connect('mongodb://sos987987:sos789789@ds021741.mlab.com:21741/travellerdiary');
+//
+var db = require('./db.js');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("Database Connected.");
+});
+//   // var UserSchema = new mongoose.Schema({
+//   //    username:String,
+//   //    pwd:String,
+//   //    email:String,
+//   //    phone:String,
+//   //    birth:String,
+//   //    gender:String,
+//   //    title:String,
+//   //    country:String,
+//   // });
+//   var UserSchema = new mongoose.Schema({
+//       username:String,
+//       pwd:String,
+//       email:String,
+//       phone:String,
+//       birth:String,
+//       gender:String,
+//       title:String,
+//       country:String,
+//
+//   });
+//   UserSchema.methods.speak = function(){
+//     console.log('My name is '+this.username);
+//   }
+//
+//   var UserModel = db.model('User',UserSchema);
+//
+//   var userEntity = new UserModel(
+//      {
+//        username:'Will',
+//        pwd:'sos789789',
+//        email:'a10000005588@gmail.com'
+//      }
+//    );
+//    UserSchema.methods.speak = function(){
+//      console.log('My name is '+this.username);
+//    }
+//    userEntity.speak();
+//
+//
+//   //  userEntity.save();
+// });
 
 // var db = monk('localhost:27017/traveldiary');  //connect to the datatable called "traveldiry";
 // mongoose.connect('mongodb://localhost:27017/testproject');
