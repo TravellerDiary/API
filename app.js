@@ -1,6 +1,4 @@
-
 // vhttp.createServer(onRequest).listen(3000);  //開啟server 並執行onRequest()
-
 // console.log("Server has started to listen at port: 3000.");
 var http = require('http');
 var url = require('url');
@@ -53,44 +51,19 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 //===================connected to the MongoDB============================
+
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-
-// var db = monk('localhost:27017/traveldiary');  //connect to the datatable called "traveldiry";
-// mongoose.connect('mongodb://localhost:27017/testproject');
 //
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function callback () {
-//   console.log("Database Connected.");
+// mongoose.connect('mongodb://sos987987:sos789789@ds021741.mlab.com:21741/travellerdiary');
 //
-//   var UserSchema = new mongoose.Schema({
-//       name:String
-//       email:String
-//
-//   });
-//
-//   UserSchema.methods.speak = function(){
-//     console.log('My name is '+this.name);
-//   }
-//
-//   var UserModel = db.model('User',UserSchema);
-//
-//   var userEntity = new UserModel({name:'Zack'});
-//   // console.log(userEntity.name); //Zack
-//   userEntity.speak();
-//
-//   userEntity.save();
-// });
-
-//================= Allow router to access db=======================
-// app.use(function(req,res,next){
-//     req.db = db;
-//     next();
-// });
-
-//app.use(express.static(__dirname)); 有個資料夾當作根目錄，html檔丟進去就好（像一般的伺服器軟體）
+var db = require('./db.js');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("Database Connected.");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,55 +1,94 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-var data = {
-   pid:"1",
-   title:"台灣環島行",
-   startDate:"2016/1/1",
-   endDate:"2016/1/7"
-};
-//列出某使用者所有個project的資料
-router.get('/projects', function(req, res, next) {
-  //res.send("Show userid's project data <br>"+ collectiondata);
-   res.json(data);
+var Project = require('../model/projects.js');
+
+//here is viewmodel and api router @@
+
+//將Model中的 Project schema 給綁到這裡來
+Project.find(function(err, res){
+  console.log("bind Project schema success");
 });
 
-router.get('/projects/:pid', function(req, res, next) {
-  var data ={
-     pid:"1",
-     name:"this is pid = "+req.parms.pid+" data"
-  }
-  //res.send("Show userid's project data <br>"+ collectiondata);
-   res.json(data);
+router.get('/projects/', function(req, res, next) {
+   Project.find( {userid:'sos987987'}   ,function(err,projects){
+     if(err) console.log("error");
+     else{
+        console.log("project get successfully");
+        var projectMap = {};
+           projects.forEach(function(project) {
+             console.log(project);
+
+             projectMap[project._id] = project;
+           });
+           res.send(projectMap);
+     }
+   });
 });
 
 
-router.post('/projects',function(req,res,next){
-    var data = {
-       pid:"1",
-       title:"台灣環島行",
-       startDate:"2016/1/1",
-       endDate:"2016/1/7"
-    };
+router.post('/projects/',function(req,res,next){
 
-    res.json(data);
+    var projectdata = new Project({
+        userid:'sos987987',
+        title:req.body.title,   //req.body.title
+        startDate:req.body.startDate, //req.body.startDate
+        endDate:req.body.endDate,  //req.body/endDate
+        picture:'null'
+    }).save(function(err,result){
+       if(err){
+         console.log(err);
+       }else{
+          var data = {
+             pid : result._id,
+             title : result.title,
+             startDate : result.startDate,
+             endDate: result.endDate,
+          }
+          res.json(data);
+       }
+    });
+    console.log('create a new project: ');
 
 });
 
 //update a project
 router.put('/projects/:pid',function(req,res,next){
-    var data = {
-      pid:"1",   //將資料庫建立出來的ID 回傳給前端
-      title:"美國環島行",
-      startDate:"2016/1/1",
-      endDate:"2016/12/1"
+    var query = {_id:req.params.pid};
+    var newData = {
+       title : req.body.title,
+       startDate : req.body.startDate,
+       endDate : req.body.endDate,
+       picture : req.body.picture
     };
-
-    res.json(data);
+    //注意 是_id 不是 pid 囧   new:true 回傳 新版更改好的資料
+    //利用mongoose抓回來的資料 用doc 取代 res
+    Project.findOneAndUpdate(query,{$set:newData},{new:true}, function(err, doc){
+        if(err){
+          console.log(err);
+        }else{
+          console.log("update successfully");
+          console.log(doc);
+          var result = {
+             title: doc.title,
+             startDate: doc.startDate,
+             endDate: doc.endDate,
+             picture: doc.picture
+          };
+          res.json(result);
+        }
+    });
 });
 //delete a project
 router.delete('/projects/:pid',function(req,res,next){
-    res.send("delete a diary" + req.params.pid);
+
+    Project.remove({ _id: req.params.pid }, function(err) {
+      if(err) message.type = 'notification!';
+      else {
+          res.send("success");
+      }
+  });
+
 });
 
 
