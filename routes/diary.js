@@ -1,62 +1,99 @@
 var express = require('express');
+var Diary = require('../model/diarys.js');
+
 var router = express.Router();
 
-/* GET users listing. */
-
-//列出某使用者所有個project的資料
-
-/* GET users listing. */
-var data = {
-   pid:"1",
-   title:"台北一天遊",
-   data:"2016/1/1",
-   content:"台北好好好好好好好玩",
-   isLock:true
-};
-//列出某使用者所有個project的資料
-router.get('/diarys', function(req, res, next) {
-  //res.send("Show userid's project data <br>"+ collectiondata);
-   res.json(data);
+//here is viewmodel and api router @@
+//  /api/:pid/diarys/ 這樣似乎不行
+Diary.find(function(err, res){
+  console.log("bind diary schema success");
 });
 
-router.get('/diarys/:id', function(req, res, next) {
-   var data ={
-      pid:"1",
-      name:"this is id = "+req.params.id+" data"
-   }
-  //res.send("Show userid's project data <br>"+ collectiondata);
-   res.json(data);
+router.get('/api/:uid/:pid/diarys/', function(req, res, next) {
+  Diary.find({projectid:req.params.pid},function(err,diarys){
+    if(err) console.log("error");
+    else{
+       console.log("diary get successfully");
+       var diaryMap = {};
+          diarys.forEach(function(diary) {
+            diaryMap[diary._id] = diary;
+          });
+          res.send(diaryMap);
+      }
+  });
 });
+//再行程由 pid 中新增日記
+router.post('/api/:uid/:pid/diarys/',function(req,res,next){
 
-
-router.post('/diarys/:id',function(req,res,next){
-    var data = {
-       pid:"1",
-       title:"台北一天遊",
-       data:"2016/1/1",
-       content:"台北好好好好好好好玩",
-       isLock:true
-    };
-
-    res.json(data);
-
+      var diaryData = new Diary({
+          userid:req.params.uid,
+          projectid:req.params.pid,
+          title:req.body.title,   //req.body.title
+          date:req.body.date, //req.body.startDate
+          tag:[{
+             descrption:"目前尚無標籤",
+             money:'0'
+          }],
+          picture:req.body.picture,  //封面照
+          isLock:req.body.isLock
+      }).save(function(err,result){
+         if(err){
+           console.log(err);
+         }else{
+            console.log(result._id);
+            var data = {
+               diaryid : result._id,
+               title : result.title,
+               date : result.date,
+               picture: result.picture,
+               isLock: result.isLock
+            };
+            res.json(data);
+         }
+      });
+      console.log('create a new diary! ');
 });
 
 //update a project
-router.put('/diarys/:id',function(req,res,next){
-  var data = {
-     id:"1",
-     title:"台北一天遊",
-     data:"2016/1/1",
-     content:"台北不不不好好玩",
-     isLock:false
+router.put('/api/:uid/:pid/diarys/:did',function(req,res,next){
+  var query = { _id:req.params.did };
+  var newData = {
+
+    title:req.body.title,
+    date:req.body.date,
+    content:req.body.content,
+    picture:req.body.picture,
+    isLock:req.body.isLock
   };
+
+  Diary.findOneAndUpdate(query,{$set:newData},{new:true}, function(err, doc){
+      if(err){
+        console.log(err);
+      }else{
+        console.log("update diary successfully");
+        console.log(doc);
+        var result = {
+           title: doc.title,
+           date: doc.date,
+           content: doc.content,
+           picture: doc.picture,
+           isLock: doc.isLock
+        }
+        res.json(result);
+      }
+  });
 
     res.json(data);
 });
 //delete a project
-router.delete('/diarys/:id',function(req,res,next){
-    res.send("delete a diary" + req.params.diaryID);
+router.delete('/api/:uid/:pid/diarys/:did',function(req,res,next){
+
+  Diary.remove({ _id: req.params.did }, function(err) {
+    if(err) message.type = 'notification!';
+    else {
+        res.send("delete diary success");
+    }
+  });
 });
 
 

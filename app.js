@@ -30,9 +30,10 @@ server.listen(8080,'127.0.0.1',function(){
 });
 //=================URL========================
 app.use('/', index); //路由為 index
-app.use('/user',user);
+//app.use('/user',user);
 app.use('/api',project);
 app.use('/api',diary);
+app.use('/api',user);
 // app.use('/collection', collection); //路由為collection
 // app.use('/collection/project', project);
 // app.use('/collection/project/diary', diary);
@@ -64,83 +65,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log("Database Connected.");
 });
-//   // var UserSchema = new mongoose.Schema({
-//   //    username:String,
-//   //    pwd:String,
-//   //    email:String,
-//   //    phone:String,
-//   //    birth:String,
-//   //    gender:String,
-//   //    title:String,
-//   //    country:String,
-//   // });
-//   var UserSchema = new mongoose.Schema({
-//       username:String,
-//       pwd:String,
-//       email:String,
-//       phone:String,
-//       birth:String,
-//       gender:String,
-//       title:String,
-//       country:String,
-//
-//   });
-//   UserSchema.methods.speak = function(){
-//     console.log('My name is '+this.username);
-//   }
-//
-//   var UserModel = db.model('User',UserSchema);
-//
-//   var userEntity = new UserModel(
-//      {
-//        username:'Will',
-//        pwd:'sos789789',
-//        email:'a10000005588@gmail.com'
-//      }
-//    );
-//    UserSchema.methods.speak = function(){
-//      console.log('My name is '+this.username);
-//    }
-//    userEntity.speak();
-//
-//
-//   //  userEntity.save();
-// });
-
-// var db = monk('localhost:27017/traveldiary');  //connect to the datatable called "traveldiry";
-// mongoose.connect('mongodb://localhost:27017/testproject');
-//
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function callback () {
-//   console.log("Database Connected.");
-//
-//   var UserSchema = new mongoose.Schema({
-//       name:String
-//       email:String
-//
-//   });
-//
-//   UserSchema.methods.speak = function(){
-//     console.log('My name is '+this.name);
-//   }
-//
-//   var UserModel = db.model('User',UserSchema);
-//
-//   var userEntity = new UserModel({name:'Zack'});
-//   // console.log(userEntity.name); //Zack
-//   userEntity.speak();
-//
-//   userEntity.save();
-// });
-
-//================= Allow router to access db=======================
-// app.use(function(req,res,next){
-//     req.db = db;
-//     next();
-// });
-
-//app.use(express.static(__dirname)); 有個資料夾當作根目錄，html檔丟進去就好（像一般的伺服器軟體）
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
