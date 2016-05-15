@@ -10,8 +10,8 @@ Project.find(function(err, res){
   console.log("bind Project schema success");
 });
 
-router.get('/projects/', function(req, res, next) {
-   Project.find( {userid:'sos987987'}   ,function(err,projects){
+router.get('/:uid/projects/', function(req, res, next) {
+   Project.find( {userid:req.params.uid}   ,function(err,projects){
      if(err) console.log("error");
      else{
         console.log("project get successfully");
@@ -27,10 +27,10 @@ router.get('/projects/', function(req, res, next) {
 });
 
 
-router.post('/projects/',function(req,res,next){
+router.post('/:uid/projects/',function(req,res,next){
 
     var projectdata = new Project({
-        userid:'sos987987',
+        userid:req.params.uid,
         title:req.body.title,   //req.body.title
         startDate:req.body.startDate, //req.body.startDate
         endDate:req.body.endDate,  //req.body/endDate
@@ -53,7 +53,7 @@ router.post('/projects/',function(req,res,next){
 });
 
 //update a project
-router.put('/projects/:pid',function(req,res,next){
+router.put('/:uid/projects/:pid',function(req,res,next){
     var query = {_id:req.params.pid};
     var newData = {
        title : req.body.title,
@@ -80,14 +80,14 @@ router.put('/projects/:pid',function(req,res,next){
     });
 });
 //delete a project
-router.delete('/projects/:pid',function(req,res,next){
+router.delete('/:uid/projects/:pid',function(req,res,next){
 
-    Project.remove({ _id: req.params.pid }, function(err) {
+   Project.remove({ _id: req.params.pid }, function(err) {
       if(err) message.type = 'notification!';
       else {
           res.send("success");
       }
-  });
+   });
 
 });
 

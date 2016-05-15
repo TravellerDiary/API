@@ -30,9 +30,10 @@ server.listen(8080,'127.0.0.1',function(){
 });
 //=================URL========================
 app.use('/', index); //路由為 index
-app.use('/user',user);
+//app.use('/user',user);
 app.use('/api',project);
 app.use('/api',diary);
+app.use('/api',user);
 // app.use('/collection', collection); //路由為collection
 // app.use('/collection/project', project);
 // app.use('/collection/project/diary', diary);
