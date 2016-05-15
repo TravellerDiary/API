@@ -2,23 +2,19 @@ var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
     username:String,
-    userid:String,
+    uid:String,
     pwd:String,
     email:String,
-    phone:String,
     birth:Date,
     gender:String,
-    title:String,
+    level:String,
     country:String,
-    picture:[{
-       pid:Number,
-       url:String
-    }]
+    headPic:String
 });
 
 // UserSchema.methods.getProjects = function(){
 //    return Project.find({ userid: this._id});
 // };
 
-var User = mongoose.model('User', UserSchema);
-modules.export = User;
+var UserModel = mongoose.model('User', UserSchema);
+module.exports = UserModel;
