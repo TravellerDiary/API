@@ -9,7 +9,7 @@ Diary.find(function(err, res){
   console.log("bind diary schema success");
 });
 
-router.get('/api/:uid/:pid/diarys/', function(req, res, next) {
+router.get('/:uid/:pid/diarys/', function(req, res, next) {
   Diary.find({projectid:req.params.pid},function(err,diarys){
     if(err) console.log("error");
     else{
@@ -23,7 +23,7 @@ router.get('/api/:uid/:pid/diarys/', function(req, res, next) {
   });
 });
 //再行程由 pid 中新增日記
-router.post('/api/:uid/:pid/diarys/',function(req,res,next){
+router.post('/:uid/:pid/diarys/',function(req,res,next){
 
       var diaryData = new Diary({
           userid:req.params.uid,
@@ -55,7 +55,7 @@ router.post('/api/:uid/:pid/diarys/',function(req,res,next){
 });
 
 //update a project
-router.put('/api/:uid/:pid/diarys/:did',function(req,res,next){
+router.put('/:uid/:pid/diarys/:did',function(req,res,next){
   var query = { _id:req.params.did };
   var newData = {
 
@@ -86,7 +86,7 @@ router.put('/api/:uid/:pid/diarys/:did',function(req,res,next){
     res.json(data);
 });
 //delete a project
-router.delete('/api/:uid/:pid/diarys/:did',function(req,res,next){
+router.delete('/:uid/:pid/diarys/:did',function(req,res,next){
 
   Diary.remove({ _id: req.params.did }, function(err) {
     if(err) message.type = 'notification!';

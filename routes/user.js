@@ -9,7 +9,22 @@ var User = require('../model/users.js');
 User.find(function(err, res){
   console.log("bind User schema success");
 });
+router.get('/user',function(req,res,next){
+  User.find( {}   ,function(err,users){
+    if(err) console.log("error");
+    else{
+       console.log("user get successfully");
+       console.log(users);
+       var UserMap = {};
+          users.forEach(function(user) {
+            console.log(user);
 
+            UserMap[user._id] = user;
+          });
+          res.send(UserMap);
+    }
+  });
+});
 
 router.get('/user/:uid',function(req,res,next){
   User.find( {uid:req.params.uid}   ,function(err,users){

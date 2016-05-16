@@ -57,9 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-//
-// mongoose.connect('mongodb://sos987987:sos789789@ds021741.mlab.com:21741/travellerdiary');
-//
+
 var db = require('./db.js');
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
