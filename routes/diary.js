@@ -46,6 +46,7 @@ router.post('/:uid/:pid/diarys/',function(req,res,next){
                title : result.title,
                date : result.date,
                picture: result.picture,
+               tag:result.tag,
                isLock: result.isLock
             };
             res.json(data);
