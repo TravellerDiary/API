@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 
 router.get('/', function(req, res) {
-  
+
   res.render('index.html');  
   // render表示對index.hjs這個模板進行編譯 並變數title值設定為Express然後再index上顯示title = "express" 很適合用在會員登入
   // res.sendFile('index.html');
@@ -33,6 +33,3 @@ module.exports = router;
 // router.get('/collection', function(req,res){
 //   res.render('collection');
 // });
-
-
-

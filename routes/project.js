@@ -4,7 +4,6 @@ var router = express.Router();
 var Project = require('../model/projects.js');
 
 //here is viewmodel and api router @@
-
 //將Model中的 Project schema 給綁到這裡來
 Project.find(function(err, res){
   console.log("bind Project schema success");
@@ -17,11 +16,15 @@ router.get('/:uid/projects/', function(req, res, next) {
         console.log("project get successfully");
         var projectMap = {};
            projects.forEach(function(project) {
-             console.log(project);
-
-             projectMap[project._id] = project;
+             projectMap[project._id] = {
+                 pid: project._id,
+                 title:project.title,
+                 startDate:project.startDate,
+                 endDate: project.endDate,
+                 picture: project.picture
+             };
            });
-           res.send(projectMap);
+           res.send(JSON.stringify(projectMap));
      }
    });
 });
