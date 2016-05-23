@@ -14,12 +14,24 @@ router.get('/:uid/:pid/diarys/', function(req, res, next) {
     if(err) console.log("error");
     else{
        console.log("diary get successfully");
-       var diaryMap = {};
-          diarys.forEach(function(diary) {
-            diaryMap[diary._id] = diary;
-          });
-          res.send(diaryMap);
-      }
+      //  var diaryMap = {};
+      //     diarys.forEach(function(diary) {
+      //       diaryMap[diary._id] = diary;
+      //     });
+      //     res.send(diaryMap);
+      // }
+
+      var diaryMap = {};
+         diarys.forEach(function(diary) {
+           diaryMap[diary._id] = {
+               did: diary._id,
+               title:diary.title,
+               date:diary.date,
+               picture: diary.picture
+           };
+         });
+      res.send(JSON.stringify(diaryMap));
+    }
   });
 });
 //再行程由 pid 中新增日記
