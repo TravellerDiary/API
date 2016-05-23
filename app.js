@@ -25,9 +25,16 @@ var user = require('./routes/user.js');
 //====================app 配置 ==================
 
 var server = http.createServer(app);
-server.listen(8080,'127.0.0.1',function(){
-    console.log('HTTP伺服器在 http://127.0.0.1:8080/ 上運行');
+server.listen(8080,'0.0.0.0',function(){
+    console.log('HTTP伺服器在 http://0.0.0.0:8080/ 上運行');
 });
+
+//==============app session=======================
+var session = require('express-session');
+app.use(session({
+  secret: 'recommand 128 bytes random string', // 建議使用 128 个字符的随機字符串
+  cookie: { maxAge: 600 * 1000 }
+}));
 //=================URL========================
 app.use('/', index); //路由為 index
 //app.use('/user',user);
@@ -64,6 +71,21 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log("Database Connected.");
 });
+
+//==========================================
+
+//記錄當前使用者選擇的專案cookie
+app.post('/toDiaryPage',function(req,res){
+   req.session.pid = req.body.pid;
+   console.log("save project id success ,session pid is " + req.session.pid);
+
+   res.send("OK");
+});
+
+app.get('/diarys',function(req,res){
+  res.render('diary.html');
+});
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

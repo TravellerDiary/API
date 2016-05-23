@@ -13,6 +13,7 @@
     "debug": "~2.2.0",
     "ejs": "^2.4.1",
     "express": "~4.13.1",
+    "express-session": "^1.13.0",
     "hjs": "~0.0.6",
     "html": "0.0.10",
     "less-middleware": "1.0.x",
