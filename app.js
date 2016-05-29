@@ -86,6 +86,9 @@ app.get('/diarys',function(req,res){
   res.render('diary.html');
 });
 
+app.post('/getProjectID',function(req,res){
+   res.send(req.session.pid);
+});
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
