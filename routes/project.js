@@ -29,6 +29,15 @@ router.get('/:uid/projects/', function(req, res, next) {
    });
 });
 
+router.get('/:uid/projects/:pid', function(req, res, next) {
+   Project.find( {userid:req.params.uid,_id:req.params.pid}   ,function(err,project){
+     if(err) console.log("error");
+     else{
+        console.log("OK");
+           res.send(JSON.stringify(project));
+     }
+   });
+});
 
 router.post('/:uid/projects/',function(req,res,next){
 
@@ -47,7 +56,7 @@ router.post('/:uid/projects/',function(req,res,next){
              title : result.title,
              startDate : result.startDate,
              endDate: result.endDate,
-          }
+          };
           res.json(data);
        }
     });
@@ -93,6 +102,8 @@ router.delete('/:uid/projects/:pid',function(req,res,next){
    });
 
 });
+
+
 
 
 module.exports = router;
