@@ -72,8 +72,6 @@ db.once('open', function callback () {
   console.log("Database Connected.");
 });
 
-//==========================================
-
 //記錄當前使用者選擇的專案cookie
 app.post('/toDiaryPage',function(req,res){
    req.session.pid = req.body.pid;
@@ -89,6 +87,8 @@ app.get('/diarys',function(req,res){
 app.post('/getProjectID',function(req,res){
    res.send(req.session.pid);
 });
+
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

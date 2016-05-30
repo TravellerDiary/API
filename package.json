@@ -17,6 +17,7 @@
     "hjs": "~0.0.6",
     "html": "0.0.10",
     "less-middleware": "1.0.x",
+    "moment": "^2.13.0",
     "mongodb": "^2.1.18",
     "mongoose": "^4.4.14",
     "morgan": "~1.6.1",
