@@ -88,7 +88,34 @@ app.post('/getProjectID',function(req,res){
    res.send(req.session.pid);
 });
 
+//=============jquery-file-upload-middleware==================
 
+var jqupload = require('jquery-file-upload-middleware');
+var upload = require('jquery-file-upload-middleware');
+
+upload.configure({
+        uploadDir: __dirname + '/views/uploads',
+        uploadUrl: '/uploads',
+        imageVersions: {
+            thumbnail: {
+                width: 80,
+                height: 80
+            }
+        }
+    });
+
+app.use('/upload', function(req, res, next){
+
+    var user = 'sos987987';  //暫時用  需注意
+    jqupload.fileHandler({
+        uploadDir: function(){
+            return __dirname + '/views/uploads/' + user;
+        },
+        uploadUrl: function(){
+            return '/uploads/' + user;
+        }
+    })(req, res, next);
+});
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

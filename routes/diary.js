@@ -91,7 +91,7 @@ router.put('/:uid/:pid/diarys/:did',function(req,res,next){
            content: doc.content,
            picture: doc.picture,
            isLock: doc.isLock
-        }
+        };
         res.json(result);
       }
   });
